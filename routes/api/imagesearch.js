@@ -17,12 +17,12 @@ router.get('/:searchterm', async (req, res) => {
       start,
     });
 
-    const data = await axios(`https://www.googleapis.com/customsearch/v1?${params.toString()}`);
+    const data = await axios(
+      `https://www.googleapis.com/customsearch/v1?${params.toString()}`,
+    );
 
-    const items = data.data.items.map((item) => {
-      const {
-        title, htmlTitle, link, snippet, htmlSnippet, pagemap,
-      } = item;
+    const items = data.data.items.map(item => {
+      const { title, htmlTitle, link, snippet, htmlSnippet, pagemap } = item;
       const { src } = pagemap.cse_image[0];
 
       return {
@@ -39,6 +39,7 @@ router.get('/:searchterm', async (req, res) => {
 
     res.json({
       totalResults,
+      page: Math.floor(start / 10) + 1,
       items,
     });
   } catch (err) {
