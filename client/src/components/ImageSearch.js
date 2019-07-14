@@ -17,34 +17,40 @@ const ImageSearch = () => {
     setInputText(e.target.value);
   };
 
-  // Handler for search form submission
-  const onSubmit = async e => {
-    e.preventDefault();
-    setSearchTerm(inputText);
+  // Send request to server for images
+  const requestImages = async (search, page) => {
+    const url = page
+      ? `/api/imagesearch/${encodeURI(search)}?offset=${page - 1}`
+      : `/api/imagesearch/${encodeURI(search)}`;
 
     try {
-      const data = await axios.get(`/api/imagesearch/${encodeURI(inputText)}`);
+      const data = await axios.get(url);
+
       setImages(data.data.items);
+
       const { totalResults } = data.data;
-      setNumPages(Math.min(Math.ceil(totalResults / 10), 10));
+
+      return { totalResults };
     } catch (err) {
       console.log(err);
     }
   };
 
+  // Handler for search form submission
+  const onSubmit = async e => {
+    e.preventDefault();
+    setSearchTerm(inputText);
+
+    const data = await requestImages(inputText);
+    const { totalResults } = data;
+
+    setNumPages(Math.min(Math.ceil(totalResults / 10), 10));
+  };
+
   // Handler for pagination click
   const setPage = async newPage => {
     setCurrentPage(newPage);
-
-    try {
-      const data = await axios.get(
-        `api/imagesearch/${encodeURI(searchTerm)}?offset=${newPage - 1}`,
-      );
-      setImages(data.data.items);
-      // console.log(data);
-    } catch (err) {
-      console.log(err);
-    }
+    requestImages(searchTerm, newPage);
   };
 
   return (
