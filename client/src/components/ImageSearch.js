@@ -26,11 +26,22 @@ const ImageSearch = () => {
     try {
       const data = await axios.get(url);
 
-      setImages(data.data.items);
+      if (page) {
+        // This request will be for a preexisting searchTerm
+        // newly pulled images stored in appropriate index
+        const newImages = [...images];
+        newImages[page - 1] = data.data.items;
+        setImages(newImages);
+      } else {
+        // This request will be for a new searchTerm
+        // images is reset to new term and currentPage reset
+        setCurrentPage(1);
+        setImages([data.data.items]);
 
-      const { totalResults } = data.data;
+        const { totalResults } = data.data;
 
-      return { totalResults };
+        return { totalResults };
+      }
     } catch (err) {
       console.log(err);
     }
@@ -49,6 +60,17 @@ const ImageSearch = () => {
 
   // Handler for pagination click
   const setPage = async newPage => {
+    // If we have already pulled this image search we just need to update currentPage
+    if (images[newPage - 1]) {
+      setCurrentPage(newPage);
+      return;
+    }
+
+    // Otherwise we need to create a new entry in images for the newPage
+    const newImages = [...images];
+    newImages[newPage - 1] = [];
+    setImages(newImages);
+    // currentPage updated now to allow Pagination to respond to click
     setCurrentPage(newPage);
     requestImages(searchTerm, newPage);
   };
@@ -76,7 +98,7 @@ const ImageSearch = () => {
           </Row>
 
           <Row className="mb-4 justify-content-center">
-            <SearchResults currentPage={currentPage} images={images} />
+            <SearchResults images={images[currentPage - 1]} />
           </Row>
         </Fragment>
       ) : null}

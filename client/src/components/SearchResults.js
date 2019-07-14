@@ -17,7 +17,6 @@ const SearchResults = props => {
 };
 
 SearchResults.propTypes = {
-  currentPage: PropTypes.number.isRequired,
   images: PropTypes.array.isRequired,
 };
 
