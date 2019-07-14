@@ -1,16 +1,9 @@
 import React, { Fragment, useState } from 'react';
-import {
-  Form,
-  FormGroup,
-  Input,
-  Button,
-  Container,
-  Row,
-  Col,
-} from 'reactstrap';
+import { Container, Row } from 'reactstrap';
 import axios from 'axios';
-import ImageCard from './ImageCard';
 import AppPagination from './AppPagination';
+import SearchResults from './SearchResults';
+import SearchForm from './SearchForm';
 
 const ImageSearch = () => {
   const [inputText, setInputText] = useState('');
@@ -19,10 +12,12 @@ const ImageSearch = () => {
   const [numPages, setNumPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
+  // Handler for text input
   const onChange = e => {
     setInputText(e.target.value);
   };
 
+  // Handler for search form submission
   const onSubmit = async e => {
     e.preventDefault();
     setSearchTerm(inputText);
@@ -37,6 +32,7 @@ const ImageSearch = () => {
     }
   };
 
+  // Handler for pagination click
   const setPage = async newPage => {
     setCurrentPage(newPage);
 
@@ -54,18 +50,7 @@ const ImageSearch = () => {
   return (
     <Container>
       <Row className="mt-4 mb-4 justify-content-center">
-        <Form inline onSubmit={onSubmit}>
-          <FormGroup>
-            <Input
-              type="search"
-              name="search"
-              id="search"
-              placeholder="Image Search"
-              onChange={onChange}
-            />
-          </FormGroup>
-          <Button>Search</Button>
-        </Form>
+        <SearchForm onSubmit={onSubmit} onChange={onChange} />
       </Row>
 
       {images.length ? (
@@ -85,11 +70,7 @@ const ImageSearch = () => {
           </Row>
 
           <Row className="mb-4 justify-content-center">
-            {images.map((image, i) => (
-              <Col key={`img${i}`} xs="12" sm="12" md="6" lg="6" xl="4">
-                <ImageCard image={image} />
-              </Col>
-            ))}
+            <SearchResults currentPage={currentPage} images={images} />
           </Row>
         </Fragment>
       ) : null}

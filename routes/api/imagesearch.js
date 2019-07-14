@@ -43,8 +43,8 @@ router.get('/:searchterm', async (req, res) => {
       items,
     });
   } catch (err) {
-    console.log(err);
-    res.status(400).send(err);
+    console.log(err.message);
+    res.status(500).send(err);
   }
 });
 
