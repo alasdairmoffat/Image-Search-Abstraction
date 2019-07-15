@@ -4,12 +4,12 @@ import { Col } from 'reactstrap';
 import ImageCard from './ImageCard';
 
 const SearchResults = props => {
-  const { images } = props;
+  const { images, imageClick } = props;
   return (
     <Fragment>
       {images.map((image, i) => (
         <Col key={`img${i}`} xs="12" sm="12" md="6" lg="6" xl="4">
-          <ImageCard image={image} />
+          <ImageCard image={image} imageClick={imageClick} />
         </Col>
       ))}
     </Fragment>
@@ -18,6 +18,7 @@ const SearchResults = props => {
 
 SearchResults.propTypes = {
   images: PropTypes.array.isRequired,
+  imageClick: PropTypes.func.isRequired,
 };
 
 export default SearchResults;

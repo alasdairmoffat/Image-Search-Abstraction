@@ -10,14 +10,13 @@ import {
 } from 'reactstrap';
 
 const ImageCard = props => {
+  const { imageClick } = props;
   const { title, snippet, link, src } = props.image;
 
   return (
     <Fragment>
       <Card className="mb-2">
-        <a href={src} target="blank" rel="noreferrer noopener">
-          <CardImg top width="100%" src={src} />
-        </a>
+        <CardImg top width="100%" src={src} onClick={imageClick} alt={title} />
         <CardBody>
           <CardTitle>
             <h5>{title}</h5>
@@ -34,6 +33,7 @@ const ImageCard = props => {
 
 ImageCard.propTypes = {
   image: PropTypes.object.isRequired,
+  imageClick: PropTypes.func.isRequired,
 };
 
 export default ImageCard;

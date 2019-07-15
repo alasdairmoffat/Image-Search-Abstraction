@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { Container, Row } from 'reactstrap';
+import { Container, Row, Modal, Card } from 'reactstrap';
 import axios from 'axios';
 import AppPagination from './AppPagination';
 import SearchResults from './SearchResults';
@@ -8,9 +8,13 @@ import SearchForm from './SearchForm';
 const ImageSearch = () => {
   const [inputText, setInputText] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+
   const [images, setImages] = useState([]);
   const [numPages, setNumPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalImage, setModalImage] = useState({ src: '', alt: '' });
 
   // Handler for text input
   const onChange = e => {
@@ -75,6 +79,16 @@ const ImageSearch = () => {
     requestImages(searchTerm, newPage);
   };
 
+  const toggleModal = () => {
+    setModalOpen(!modalOpen);
+  };
+
+  const imageClick = e => {
+    const { src, alt } = e.target;
+    setModalImage({ src, alt });
+    toggleModal();
+  };
+
   return (
     <Container>
       <Row className="mt-4 mb-4 justify-content-center">
@@ -97,8 +111,26 @@ const ImageSearch = () => {
             />
           </Row>
 
+          <Modal
+            className="modal-lg modal-dialog-centered"
+            isOpen={modalOpen}
+            toggle={toggleModal}
+          >
+            <Card>
+              <img
+                className="modal-image"
+                src={modalImage.src}
+                alt={modalImage.alt}
+                style={{ height: '100%', width: '100%', padding: '2%' }}
+              />
+            </Card>
+          </Modal>
+
           <Row className="mb-4 justify-content-center">
-            <SearchResults images={images[currentPage - 1]} />
+            <SearchResults
+              images={images[currentPage - 1]}
+              imageClick={imageClick}
+            />
           </Row>
         </Fragment>
       ) : null}

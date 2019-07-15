@@ -1,9 +1,12 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const helmet = require('helmet');
 
 dotenv.config();
 
 const app = express();
+
+app.use(helmet());
 
 app.use('/api/imagesearch', require('./routes/api/imagesearch'));
 
