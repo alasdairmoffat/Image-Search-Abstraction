@@ -3,8 +3,8 @@ const axios = require('axios');
 
 const router = express.Router();
 
-router.get('/:searchterm', async (req, res) => {
-  const { searchterm } = req.params;
+router.get('/:searchTerm', async (req, res) => {
+  const { searchTerm } = req.params;
   const { offset } = req.query;
   const start = offset ? Math.min(offset * 10, 90) + 1 : 1;
 
@@ -13,7 +13,7 @@ router.get('/:searchterm', async (req, res) => {
     const params = new URLSearchParams({
       key: process.env.API_KEY,
       cx: process.env.CSE_ID,
-      q: searchterm,
+      q: searchTerm,
       start,
     });
 
@@ -36,6 +36,12 @@ router.get('/:searchterm', async (req, res) => {
     });
 
     const { totalResults } = data.data.searchInformation;
+
+    // Add search to latest DB
+    const { protocol } = req;
+    const host = req.get('host');
+
+    await axios.post(`${protocol}://${host}/api/latest/imagesearch`, { searchTerm });
 
     res.json({
       totalResults,
