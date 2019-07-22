@@ -115,6 +115,7 @@ const ImageSearch = () => {
             className="modal-lg modal-dialog-centered"
             isOpen={modalOpen}
             toggle={toggleModal}
+            onClick={toggleModal}
           >
             <Card>
               <img

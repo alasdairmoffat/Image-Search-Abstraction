@@ -1,22 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, FormGroup, Input, Button } from 'reactstrap';
+import {
+  Form,
+  FormGroup,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  Button,
+} from 'reactstrap';
 
 const SearchForm = props => {
   const { onSubmit, onChange } = props;
 
   return (
-    <Form inline onSubmit={onSubmit}>
+    <Form onSubmit={onSubmit} style={{ width: '80%' }}>
       <FormGroup>
-        <Input
-          type="search"
-          name="search"
-          id="search"
-          placeholder="Image Search"
-          onChange={onChange}
-        />
+        <InputGroup>
+          <Input
+            type="search"
+            name="search"
+            id="search"
+            placeholder="Image Search"
+            onChange={onChange}
+          />
+          <InputGroupAddon addonType="append">
+            <Button>Search</Button>
+          </InputGroupAddon>
+        </InputGroup>
       </FormGroup>
-      <Button>Search</Button>
     </Form>
   );
 };
