@@ -10,7 +10,7 @@ import {
 } from 'reactstrap';
 
 const SearchForm = props => {
-  const { onSubmit, onChange } = props;
+  const { inputText, onSubmit, onChange } = props;
 
   return (
     <Form onSubmit={onSubmit} style={{ width: '80%' }}>
@@ -22,6 +22,7 @@ const SearchForm = props => {
             id="search"
             placeholder="Image Search"
             onChange={onChange}
+            value={inputText}
           />
           <InputGroupAddon addonType="append">
             <Button>Search</Button>
@@ -33,6 +34,7 @@ const SearchForm = props => {
 };
 
 SearchForm.propTypes = {
+  inputText: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
 };

@@ -4,6 +4,7 @@ import axios from 'axios';
 import AppPagination from './AppPagination';
 import SearchResults from './SearchResults';
 import SearchForm from './SearchForm';
+import LatestSearches from './LatestSearches';
 
 const ImageSearch = () => {
   const [inputText, setInputText] = useState('');
@@ -51,15 +52,20 @@ const ImageSearch = () => {
     }
   };
 
-  // Handler for search form submission
-  const onSubmit = async e => {
-    e.preventDefault();
-    setSearchTerm(inputText);
+  // method to send image search request
+  const newSearch = async newSearchTerm => {
+    setSearchTerm(newSearchTerm);
 
-    const data = await requestImages(inputText);
+    const data = await requestImages(newSearchTerm);
     const { totalResults } = data;
 
     setNumPages(Math.min(Math.ceil(totalResults / 10), 10));
+  };
+
+  // Handler for search form submission
+  const onSubmit = e => {
+    e.preventDefault();
+    newSearch(inputText);
   };
 
   // Handler for pagination click
@@ -89,11 +95,22 @@ const ImageSearch = () => {
     toggleModal();
   };
 
+  const recentSearchClick = async newSearchTerm => {
+    setInputText(newSearchTerm);
+    newSearch(newSearchTerm);
+  };
+
   return (
     <Container>
       <Row className="mt-4 mb-4 justify-content-center">
-        <SearchForm onSubmit={onSubmit} onChange={onChange} />
+        <SearchForm
+          inputText={inputText}
+          onSubmit={onSubmit}
+          onChange={onChange}
+        />
       </Row>
+
+      <LatestSearches onClick={recentSearchClick} />
 
       {images.length ? (
         <Fragment>
