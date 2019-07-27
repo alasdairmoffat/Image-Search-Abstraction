@@ -30,7 +30,10 @@ router.post('/', async (req, res) => {
   try {
     const dbResponse = await newSearchHistory.save();
 
-    res.json(dbResponse);
+    res.json({
+      searchTerm: dbResponse.searchTerm,
+      date: dbResponse.date,
+    });
   } catch (err) {
     res.status(500).json(err);
   }
