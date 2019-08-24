@@ -9,9 +9,8 @@ import {
   Button,
 } from 'reactstrap';
 
-const ImageCard = props => {
-  const { imageClick } = props;
-  const { title, snippet, link, src } = props.image;
+const ImageCard = ({ image, imageClick }) => {
+  const { title, snippet, link, src } = image;
 
   return (
     <Fragment>

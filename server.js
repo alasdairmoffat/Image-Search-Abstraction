@@ -26,7 +26,15 @@ app.use('/api/imagesearch', require('./routes/api/imagesearch'));
 app.use('/api/latest/imagesearch', require('./routes/api/latest'));
 
 const port = process.env.PORT || 5000;
-app.listen(port, () => console.log(`Server listening on port ${port}`));
+const server = app.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
+});
+
+function stop() {
+  mongoose.connection.close();
+  server.close();
+}
 
 // For testing
 module.exports = app;
+module.exports.stop = stop;

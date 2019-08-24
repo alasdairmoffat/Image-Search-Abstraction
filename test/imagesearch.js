@@ -1,4 +1,4 @@
-/* global describe it */
+/* global describe it after */
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
@@ -9,6 +9,10 @@ const server = require('../server');
 chai.use(chaiHttp);
 
 describe('GET /api/imagesearch', () => {
+  after(async () => {
+    server.stop();
+  });
+
   it('should return search values with no offset given', (done) => {
     chai
       .request(server)

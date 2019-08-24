@@ -2,8 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
-const AppPagination = props => {
-  const { currentPage, numPages, setPage } = props;
+const AppPagination = ({currentPage, numPages, setPage}) => {
 
   const pages = Array.from(new Array(numPages), (x, i) => i + 1);
 

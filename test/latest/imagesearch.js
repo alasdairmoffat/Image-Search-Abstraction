@@ -1,14 +1,18 @@
-/* global describe it */
+/* global describe it after */
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 
 const should = chai.should();
-const server = require('../server');
+const server = require('../../server');
 
 chai.use(chaiHttp);
 
 describe('GET /api/latest/imagesearch', () => {
+  after(async () => {
+    server.stop();
+  });
+
   it('should return at most 5 results containing search term and search time', (done) => {
     chai
       .request(server)
@@ -35,6 +39,10 @@ describe('GET /api/latest/imagesearch', () => {
 });
 
 describe('POST /api/latest/imagesearch', () => {
+  after(async () => {
+    server.stop();
+  });
+
   const newSearchTerm = 'test';
 
   it('should accept a new searchTerm ', (done) => {

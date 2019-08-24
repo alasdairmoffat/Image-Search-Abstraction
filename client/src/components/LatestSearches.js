@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { Row, Button, Collapse, Table } from 'reactstrap';
 
-const LatestSearches = props => {
+const LatestSearches = ({ onClick }) => {
   const [searchHistory, setSearchHistory] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -40,7 +40,7 @@ const LatestSearches = props => {
       setSearchHistory(newSearchHistory);
     };
     getLatest();
-  }, [props.onClick]);
+  }, [onClick]);
 
   const collapse = () => {
     setIsOpen(!isOpen);
@@ -60,7 +60,7 @@ const LatestSearches = props => {
                 key={`latest${i}`}
                 onClick={() => {
                   collapse();
-                  props.onClick(search.searchTerm);
+                  onClick(search.searchTerm);
                 }}
               >
                 <td>{search.searchTerm}</td>

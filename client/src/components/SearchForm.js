@@ -9,29 +9,25 @@ import {
   Button,
 } from 'reactstrap';
 
-const SearchForm = props => {
-  const { inputText, onSubmit, onChange } = props;
-
-  return (
-    <Form onSubmit={onSubmit} style={{ width: '80%' }}>
-      <FormGroup>
-        <InputGroup>
-          <Input
-            type="search"
-            name="search"
-            id="search"
-            placeholder="Image Search"
-            onChange={onChange}
-            value={inputText}
-          />
-          <InputGroupAddon addonType="append">
-            <Button>Search</Button>
-          </InputGroupAddon>
-        </InputGroup>
-      </FormGroup>
-    </Form>
-  );
-};
+const SearchForm = ({ inputText, onSubmit, onChange }) => (
+  <Form onSubmit={onSubmit} style={{ width: '80%' }}>
+    <FormGroup>
+      <InputGroup>
+        <Input
+          type="search"
+          name="search"
+          id="search"
+          placeholder="Image Search"
+          onChange={onChange}
+          value={inputText}
+        />
+        <InputGroupAddon addonType="append">
+          <Button>Search</Button>
+        </InputGroupAddon>
+      </InputGroup>
+    </FormGroup>
+  </Form>
+);
 
 SearchForm.propTypes = {
   inputText: PropTypes.string.isRequired,
