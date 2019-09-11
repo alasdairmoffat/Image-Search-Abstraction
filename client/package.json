@@ -32,5 +32,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:5000"
+  "proxy": "http://localhost:5000",
+  "homepage": "https://mern-image-search-abstraction.herokuapp.com"
 }
