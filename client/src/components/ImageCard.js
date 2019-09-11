@@ -8,9 +8,10 @@ import {
   CardTitle,
   Button,
 } from 'reactstrap';
+import Interweave from 'interweave';
 
 const ImageCard = ({ image, imageClick }) => {
-  const { title, snippet, link, src } = image;
+  const { title, htmlTitle, htmlSnippet, link, src } = image;
 
   return (
     <Fragment>
@@ -18,9 +19,13 @@ const ImageCard = ({ image, imageClick }) => {
         <CardImg top width="100%" src={src} onClick={imageClick} alt={title} />
         <CardBody>
           <CardTitle>
-            <h5>{title}</h5>
+            <h4>
+              <Interweave content={htmlTitle} />
+            </h4>
           </CardTitle>
-          <CardText className="mb-3">{snippet}</CardText>
+          <CardText className="mb-3">
+            <Interweave content={htmlSnippet} />
+          </CardText>
           <a href={link} target="_blank" rel="noreferrer noopener">
             <Button>View Source</Button>
           </a>
@@ -31,7 +36,14 @@ const ImageCard = ({ image, imageClick }) => {
 };
 
 ImageCard.propTypes = {
-  image: PropTypes.object.isRequired,
+  image: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      htmlTitle: PropTypes.string.isRequired,
+      link: PropTypes.string.isRequired,
+      snippet: PropTypes.string,
+      htmlSnippet: PropTypes.string.isRequired,
+      src: PropTypes.string.isRequired,
+    }).isRequired,
   imageClick: PropTypes.func.isRequired,
 };
 

@@ -14,7 +14,16 @@ const SearchResults = ({ images, imageClick }) => (
 );
 
 SearchResults.propTypes = {
-  images: PropTypes.array.isRequired,
+  images: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      htmlTitle: PropTypes.string.isRequired,
+      link: PropTypes.string.isRequired,
+      snippet: PropTypes.string,
+      htmlSnippet: PropTypes.string.isRequired,
+      src: PropTypes.string.isRequired,
+    })
+  ).isRequired,
   imageClick: PropTypes.func.isRequired,
 };
 
