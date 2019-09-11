@@ -52,9 +52,20 @@ const ImageSearch = () => {
     }
   };
 
+  const postSearchTerm = async searchTerm => {
+    try {
+      await axios.post(`/api/latest/imagesearch`, { searchTerm });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   // method to send image search request
   const newSearch = async newSearchTerm => {
     setSearchTerm(newSearchTerm);
+
+    // add searched term to recent searches db
+    postSearchTerm(newSearchTerm);
 
     const data = await requestImages(newSearchTerm);
     const { totalResults } = data;

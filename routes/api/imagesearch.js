@@ -37,12 +37,6 @@ router.get('/:searchTerm', async (req, res) => {
 
     const { totalResults } = data.data.searchInformation;
 
-    // Add search to latest DB
-    const { protocol } = req;
-    const host = req.get('host');
-
-    await axios.post(`${protocol}://${host}/api/latest/imagesearch`, { searchTerm });
-
     res.json({
       totalResults,
       page: Math.floor(start / 10) + 1,
