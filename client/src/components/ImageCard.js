@@ -1,4 +1,5 @@
-import React, { Fragment } from 'react';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   Card,
@@ -10,11 +11,24 @@ import {
 } from 'reactstrap';
 import Interweave from 'interweave';
 
-const ImageCard = ({ image, imageClick }) => {
-  const { title, htmlTitle, htmlSnippet, link, src } = image;
+import { toggleModal, updateModalImage } from '../store/actions/modalActions';
+
+const ImageCard = ({ image }) => {
+  const dispatch = useDispatch();
+
+  const imageClick = (e) => {
+    const { src, alt } = e.target;
+    dispatch(updateModalImage(src, alt));
+    dispatch(toggleModal());
+  };
+
+  const {
+    title, htmlTitle, htmlSnippet, link, src,
+  } = image;
+
 
   return (
-    <Fragment>
+    <>
       <Card className="mb-2">
         <CardImg top width="100%" src={src} onClick={imageClick} alt={title} />
         <CardBody>
@@ -31,20 +45,19 @@ const ImageCard = ({ image, imageClick }) => {
           </a>
         </CardBody>
       </Card>
-    </Fragment>
+    </>
   );
 };
 
 ImageCard.propTypes = {
   image: PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      htmlTitle: PropTypes.string.isRequired,
-      link: PropTypes.string.isRequired,
-      snippet: PropTypes.string,
-      htmlSnippet: PropTypes.string.isRequired,
-      src: PropTypes.string.isRequired,
-    }).isRequired,
-  imageClick: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
+    htmlTitle: PropTypes.string.isRequired,
+    link: PropTypes.string.isRequired,
+    snippet: PropTypes.string,
+    htmlSnippet: PropTypes.string.isRequired,
+    src: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default ImageCard;

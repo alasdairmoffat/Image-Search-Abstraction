@@ -1,8 +1,26 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
-const AppPagination = ({currentPage, numPages, setPage}) => {
+import { updateCurrentPage, fetchImages } from '../store/actions/imagesActions';
+
+const AppPagination = () => {
+  const currentPage = useSelector((state) => state.images.currentPage);
+  const numPages = useSelector((state) => state.images.numPages);
+  const images = useSelector((state) => state.images.images);
+  const searchTerm = useSelector((state) => state.images.searchTerm);
+
+  const dispatch = useDispatch();
+
+  const setPage = (page) => {
+    if (images[page - 1]) {
+      // This page is already in state
+      dispatch(updateCurrentPage(page));
+    } else {
+      // This page needs to be fetched
+      dispatch(fetchImages(searchTerm, page));
+    }
+  };
 
   const pages = Array.from(new Array(numPages), (x, i) => i + 1);
 
@@ -16,20 +34,20 @@ const AppPagination = ({currentPage, numPages, setPage}) => {
   };
 
   return (
-    <Fragment>
+    <>
       <Pagination>
         <PaginationItem
           key="previous"
           disabled={currentPage === 1}
-          onClick={e => onClick(e, currentPage - 1)}
+          onClick={(e) => onClick(e, currentPage - 1)}
         >
           <PaginationLink previous href="#" />
         </PaginationItem>
-        {pages.map(x => (
+        {pages.map((x) => (
           <PaginationItem
             key={x}
             active={x === currentPage}
-            onClick={e => onClick(e, x)}
+            onClick={(e) => onClick(e, x)}
           >
             <PaginationLink href="#">{x}</PaginationLink>
           </PaginationItem>
@@ -37,19 +55,13 @@ const AppPagination = ({currentPage, numPages, setPage}) => {
         <PaginationItem
           key="next"
           disabled={currentPage === numPages}
-          onClick={e => onClick(e, currentPage + 1)}
+          onClick={(e) => onClick(e, currentPage + 1)}
         >
           <PaginationLink next href="#" />
         </PaginationItem>
       </Pagination>
-    </Fragment>
+    </>
   );
-};
-
-AppPagination.propTypes = {
-  currentPage: PropTypes.number.isRequired,
-  numPages: PropTypes.number.isRequired,
-  setPage: PropTypes.func.isRequired,
 };
 
 export default AppPagination;

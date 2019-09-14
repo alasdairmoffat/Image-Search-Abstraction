@@ -1,30 +1,22 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Col } from 'reactstrap';
+
 import ImageCard from './ImageCard';
 
-const SearchResults = ({ images, imageClick }) => (
-  <Fragment>
-    {images.map((image, i) => (
-      <Col key={`img${i}`} xs="12" sm="12" md="6" lg="6" xl="4">
-        <ImageCard image={image} imageClick={imageClick} />
-      </Col>
-    ))}
-  </Fragment>
-);
+const SearchResults = () => {
+  const currentPage = useSelector((state) => state.images.currentPage);
+  const images = useSelector((state) => state.images.images);
 
-SearchResults.propTypes = {
-  images: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      htmlTitle: PropTypes.string.isRequired,
-      link: PropTypes.string.isRequired,
-      snippet: PropTypes.string,
-      htmlSnippet: PropTypes.string.isRequired,
-      src: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-  imageClick: PropTypes.func.isRequired,
+  return (
+    <>
+      {images[currentPage - 1].map((image, i) => (
+        <Col key={`img${i}`} xs="12" sm="12" md="6" lg="6" xl="4">
+          <ImageCard image={image} />
+        </Col>
+      ))}
+    </>
+  );
 };
 
 export default SearchResults;
