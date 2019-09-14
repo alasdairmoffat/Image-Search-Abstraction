@@ -1,8 +1,12 @@
-import { TOGGLE_MODAL, UPDATE_MODAL_IMAGE } from '../actions/types';
+import {
+  TOGGLE_MODAL,
+  UPDATE_MODAL_INDEX,
+} from '../actions/types';
 
 const initialState = {
   modalOpen: false,
   modalImage: { src: '', alt: '' },
+  modalIndex: 0,
 };
 
 export default (state = initialState, action) => {
@@ -13,16 +17,11 @@ export default (state = initialState, action) => {
         modalOpen: !state.modalOpen,
       };
 
-    case UPDATE_MODAL_IMAGE: {
-      const { src, alt } = action;
+    case UPDATE_MODAL_INDEX:
       return {
         ...state,
-        modalImage: {
-          src,
-          alt,
-        },
+        modalIndex: action.modalIndex,
       };
-    }
 
     default:
       return state;

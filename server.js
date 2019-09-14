@@ -21,7 +21,7 @@ mongoose
     useNewUrlParser: true,
   })
   .then(() => console.log('MongoDB Connected'))
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));
 
 app.use('/api/imagesearch', require('./routes/api/imagesearch'));
 app.use('/api/latest/imagesearch', require('./routes/api/latest'));

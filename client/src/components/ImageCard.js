@@ -11,21 +11,19 @@ import {
 } from 'reactstrap';
 import Interweave from 'interweave';
 
-import { toggleModal, updateModalImage } from '../store/actions/modalActions';
+import { toggleModal, updateModalIndex } from '../store/actions/modalActions';
 
-const ImageCard = ({ image }) => {
+const ImageCard = ({ image, index }) => {
   const dispatch = useDispatch();
 
-  const imageClick = (e) => {
-    const { src, alt } = e.target;
-    dispatch(updateModalImage(src, alt));
+  const imageClick = () => {
+    dispatch(updateModalIndex(index));
     dispatch(toggleModal());
   };
 
   const {
     title, htmlTitle, htmlSnippet, link, src,
   } = image;
-
 
   return (
     <>
@@ -58,6 +56,7 @@ ImageCard.propTypes = {
     htmlSnippet: PropTypes.string.isRequired,
     src: PropTypes.string.isRequired,
   }).isRequired,
+  index: PropTypes.number.isRequired,
 };
 
 export default ImageCard;

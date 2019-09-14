@@ -1,11 +1,10 @@
-import { TOGGLE_MODAL, UPDATE_MODAL_IMAGE } from './types';
+import { TOGGLE_MODAL, UPDATE_MODAL_INDEX } from './types';
 
 export const toggleModal = () => ({
   type: TOGGLE_MODAL,
 });
 
-export const updateModalImage = (src, alt) => ({
-  type: UPDATE_MODAL_IMAGE,
-  src,
-  alt,
+export const updateModalIndex = (modalIndex) => ({
+  type: UPDATE_MODAL_INDEX,
+  modalIndex,
 });
