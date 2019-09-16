@@ -81,6 +81,7 @@ adds `searchterm` to database
 - Helmet version: 3.20
 - Mongoose version: 5.6
 - React version: 16.9
+- Redux: version 4.0
 - Bootstrap version: 4.3
 
 ## Setup

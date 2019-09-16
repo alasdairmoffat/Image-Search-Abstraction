@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  Row, Button, Collapse, Table,
+  Row, Button, Collapse, Table, Spinner, Col,
 } from 'reactstrap';
 
 import {
@@ -34,35 +34,43 @@ const LatestSearches = () => {
       </Row>
 
       <Collapse isOpen={isOpen}>
-        <Table
-          hover
-          style={{
-            backgroundColor: '#eee',
-            cursor: 'pointer',
-          }}
-        >
-          <tbody>
-            {searchHistory.map((search, i) => (
-              <tr
-                key={`latest${i}`}
-                onClick={() => {
-                  collapse();
-                  onClick(search.searchTerm);
-                }}
-              >
-                <td>{search.searchTerm}</td>
-                <td
-                  style={{
-                    fontSize: '0.8rem',
-                    color: '#222',
-                  }}
-                >
-                  {search.timeSince}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        {searchHistory.length
+          ? (
+            <Table
+              hover
+              style={{
+                backgroundColor: '#eee',
+                cursor: 'pointer',
+              }}
+            >
+              <tbody>
+                {searchHistory.map((search, i) => (
+                  <tr
+                    key={`latest${i}`}
+                    onClick={() => {
+                      collapse();
+                      onClick(search.searchTerm);
+                    }}
+                  >
+                    <td>{search.searchTerm}</td>
+                    <td
+                      style={{
+                        fontSize: '0.8rem',
+                        color: '#222',
+                      }}
+                    >
+                      {search.timeSince}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          )
+          : (
+            <Col style={{ backgroundColor: '#eee' }}>
+              <Spinner className="mt-4 mb-4" style={{ width: '3rem', height: '3rem' }} />
+            </Col>
+          )}
       </Collapse>
     </>
   );

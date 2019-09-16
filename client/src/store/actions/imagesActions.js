@@ -3,7 +3,9 @@ import axios from 'axios';
 import {
   UPDATE_INPUT_TEXT,
   UPDATE_SEARCH_TERM,
-  REPLACE_IMAGES,
+  AWAITING_SEARCH_RESULTS,
+  SEARCH_RESULTS_RECEIVED,
+  RESET_IMAGES,
   ADD_IMAGES,
   UPDATE_NUM_PAGES,
   UPDATE_CURRENT_PAGE,
@@ -13,6 +15,15 @@ export const updateInputText = (inputText) => ({
   type: UPDATE_INPUT_TEXT,
   inputText,
 });
+
+export const updateSearchTerm = (searchTerm) => ({
+  type: UPDATE_SEARCH_TERM,
+  searchTerm,
+});
+
+export const awaitingSearchResults = (waiting) => (waiting
+  ? { type: AWAITING_SEARCH_RESULTS }
+  : { type: SEARCH_RESULTS_RECEIVED });
 
 export const updateCurrentPage = (page) => ({
   type: UPDATE_CURRENT_PAGE,
@@ -24,40 +35,48 @@ export const updateNumPages = (numPages) => ({
   numPages,
 });
 
-export const updateSearchTerm = (searchTerm) => ({
-  type: UPDATE_SEARCH_TERM,
-  searchTerm,
+export const resetImages = () => ({
+  type: RESET_IMAGES,
 });
 
 export const fetchImages = (searchTerm, page) => async (dispatch) => {
-  const url = page
-    ? `/api/imagesearch/${encodeURI(searchTerm)}?offset=${page - 1}`
-    : `/api/imagesearch/${encodeURI(searchTerm)}`;
+  if (page) {
+    // This request will be for a preexisting searchTerm
+    // newly pulled images stored in appropriate Index
+    dispatch(awaitingSearchResults(true));
+    dispatch(updateCurrentPage(page));
+    try {
+      const data = await axios.get(
+        `/api/imagesearch/${encodeURI(searchTerm)}?offset=${page - 1}`,
+      );
 
-  try {
-    const data = await axios.get(url);
-
-    if (page) {
-      // This request will be for a preexisting searchTerm
-      // newly pulled images stored in appropriate Index
       dispatch({
         type: ADD_IMAGES,
         page,
         images: data.data.items,
       });
-      dispatch(updateCurrentPage(page));
-    } else {
-      // This request will be for a new searchTerm
-      // images is reset with new results; currentPage and numPages updated.
-      dispatch(updateCurrentPage(1));
+
+      dispatch(awaitingSearchResults(false));
+    } catch (err) {
+      console.log(err);
+    }
+  } else {
+    // This request will be for a new searchTerm
+    // images is reset with new results; currentPage and numPages updated.
+    dispatch(resetImages());
+    dispatch(awaitingSearchResults(true));
+    dispatch(updateCurrentPage(1));
+    try {
+      const data = await axios.get(`/api/imagesearch/${encodeURI(searchTerm)}`);
 
       const { totalResults } = data.data;
       dispatch(updateNumPages(Math.min(Math.ceil(totalResults / 10), 10)));
-
       dispatch({
-        type: REPLACE_IMAGES,
+        type: ADD_IMAGES,
+        page: 1,
         images: data.data.items,
       });
+      dispatch(awaitingSearchResults(false));
 
       // add searched term to recent searches db
       try {
@@ -67,8 +86,8 @@ export const fetchImages = (searchTerm, page) => async (dispatch) => {
       } catch (err) {
         console.log(err);
       }
+    } catch (err) {
+      console.log(err);
     }
-  } catch (err) {
-    console.log(err);
   }
 };

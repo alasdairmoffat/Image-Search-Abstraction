@@ -10,11 +10,15 @@ const SearchResults = () => {
 
   return (
     <>
-      {images[currentPage - 1].map((image, i) => (
-        <Col key={`img${i}`} xs="12" sm="12" md="6" lg="6" xl="4">
-          <ImageCard image={image} index={i} />
-        </Col>
-      ))}
+      {images[currentPage - 1] ? (
+        <>
+          {images[currentPage - 1].map((image, i) => (
+            <Col key={`img${i}`} xs="12" sm="12" md="6" lg="6" xl="4">
+              <ImageCard image={image} index={i} />
+            </Col>
+          ))}
+        </>
+      ) : null}
     </>
   );
 };

@@ -3,6 +3,8 @@ const axios = require('axios');
 
 const router = express.Router();
 
+// @route GET /api/imagesearch/:searchTerm
+// @desc  Get image search results
 router.get('/:searchTerm', async (req, res) => {
   const { searchTerm } = req.params;
   const { offset } = req.query;
@@ -17,7 +19,9 @@ router.get('/:searchTerm', async (req, res) => {
       start,
     });
 
-    const data = await axios(`https://www.googleapis.com/customsearch/v1?${params.toString()}`);
+    const data = await axios(
+      `https://www.googleapis.com/customsearch/v1?${params.toString()}`,
+    );
 
     const items = data.data.items.map((item) => {
       const {

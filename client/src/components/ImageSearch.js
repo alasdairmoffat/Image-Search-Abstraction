@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Row } from 'reactstrap';
+import { Container, Row, Spinner } from 'reactstrap';
 
 import AppPagination from './AppPagination';
 import SearchResults from './SearchResults';
@@ -15,6 +15,7 @@ const ImageSearch = () => {
 
   const searchTerm = useSelector((state) => state.images.searchTerm);
   const images = useSelector((state) => state.images.images);
+  const waiting = useSelector((state) => state.images.awaitingSearchResults);
 
   // api call to fetch most recent search data made whenever component re-renders
   useEffect(() => {
@@ -42,7 +43,19 @@ const ImageSearch = () => {
           <Row className="justify-content-center">
             <AppPagination />
           </Row>
+        </>
+      ) : null}
 
+      {waiting ? (
+        <Spinner
+          color="light"
+          className="mt-4"
+          style={{ width: '5rem', height: '5rem' }}
+        />
+      ) : null}
+
+      {images.length ? (
+        <>
           <ImageModal />
 
           <Row className="mb-4 justify-content-center">
