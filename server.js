@@ -19,13 +19,13 @@ const db = process.env.MONGO_URI;
 mongoose
   .connect(db, {
     useNewUrlParser: true,
+    useUnifiedTopology: true,
   })
   .then(() => console.log('MongoDB Connected'))
   .catch((err) => console.log(err));
 
 app.use('/api/imagesearch', require('./routes/api/imagesearch'));
 app.use('/api/latest/imagesearch', require('./routes/api/latest'));
-
 
 // Serve static build folder if in production
 if (process.env.NODE_ENV === 'production') {
