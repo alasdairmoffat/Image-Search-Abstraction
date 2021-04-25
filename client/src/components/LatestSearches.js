@@ -11,7 +11,9 @@ import {
 } from '../store/actions/imagesActions';
 
 const LatestSearches = () => {
-  const searchHistory = useSelector((state) => state.searchHistory.searchHistory);
+  const searchHistory = useSelector(
+    (state) => state.searchHistory.searchHistory,
+  );
 
   const dispatch = useDispatch();
 
@@ -34,43 +36,44 @@ const LatestSearches = () => {
       </Row>
 
       <Collapse isOpen={isOpen}>
-        {searchHistory.length
-          ? (
-            <Table
-              hover
-              style={{
-                backgroundColor: '#eee',
-                cursor: 'pointer',
-              }}
-            >
-              <tbody>
-                {searchHistory.map((search, i) => (
-                  <tr
-                    key={`latest${i}`}
-                    onClick={() => {
-                      collapse();
-                      onClick(search.searchTerm);
+        {searchHistory.length ? (
+          <Table
+            hover
+            style={{
+              backgroundColor: '#eee',
+              cursor: 'pointer',
+            }}
+          >
+            <tbody>
+              {searchHistory.map((search) => (
+                <tr
+                  key={`latest${search.id}`}
+                  onClick={() => {
+                    collapse();
+                    onClick(search.searchTerm);
+                  }}
+                >
+                  <td>{search.searchTerm}</td>
+                  <td
+                    style={{
+                      fontSize: '0.8rem',
+                      color: '#222',
                     }}
                   >
-                    <td>{search.searchTerm}</td>
-                    <td
-                      style={{
-                        fontSize: '0.8rem',
-                        color: '#222',
-                      }}
-                    >
-                      {search.timeSince}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          )
-          : (
-            <Col style={{ backgroundColor: '#eee' }}>
-              <Spinner className="mt-4 mb-4" style={{ width: '3rem', height: '3rem' }} />
-            </Col>
-          )}
+                    {search.timeSince}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        ) : (
+          <Col style={{ backgroundColor: '#eee' }}>
+            <Spinner
+              className="mt-4 mb-4"
+              style={{ width: '3rem', height: '3rem' }}
+            />
+          </Col>
+        )}
       </Collapse>
     </>
   );

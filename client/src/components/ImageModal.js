@@ -23,7 +23,7 @@ const ImageModal = () => {
   const currentImages = images[currentPage - 1];
 
   if (!currentImages) {
-    return (<></>);
+    return <></>; //
   }
 
   const modalTitle = currentImages[modalIndex].title;
@@ -41,8 +41,8 @@ const ImageModal = () => {
     }
   };
 
-  const carouselImages = currentImages.map((image, i) => (
-    <CarouselItem key={i}>
+  const carouselImages = currentImages.map((image) => (
+    <CarouselItem key={image.src}>
       <img
         src={image.src}
         alt={image.title}
@@ -60,7 +60,12 @@ const ImageModal = () => {
       <ModalHeader toggle={toggle}>
         <Interweave content={modalTitle} />
       </ModalHeader>
-      <Carousel interval={false} activeIndex={modalIndex} next={next} previous={previous}>
+      <Carousel
+        interval={false}
+        activeIndex={modalIndex}
+        next={next}
+        previous={previous}
+      >
         {carouselImages}
         <CarouselControl
           direction="prev"

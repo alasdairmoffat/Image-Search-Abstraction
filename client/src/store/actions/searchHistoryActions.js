@@ -26,7 +26,8 @@ const formatTime = (timeString) => {
 const fetchSearchHistory = () => async (dispatch) => {
   try {
     const latest = await axios.get('/api/latest/imagesearch');
-    const searchHistory = latest.data.map((x) => ({
+    const searchHistory = latest.data.map((x, i) => ({
+      id: i,
       searchTerm: x.searchTerm,
       timeSince: formatTime(x.date),
     }));
