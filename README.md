@@ -6,6 +6,8 @@
 [![Build Status](https://travis-ci.com/alasdairmoffat/Image-Search-Abstraction.svg?branch=master)](https://travis-ci.com/alasdairmoffat/Image-Search-Abstraction)
 [![codecov](https://codecov.io/gh/alasdairmoffat/Image-Search-Abstraction/branch/master/graph/badge.svg)](https://codecov.io/gh/alasdairmoffat/Image-Search-Abstraction)
 
+![Demo Image](../assets/demo-image.png?raw=true)
+
 ## Table of Contents
 
 - [Preview](#preview)
