@@ -18,7 +18,7 @@
 
 ## Preview
 
-[Heroku](https://mern-image-search-abstraction.herokuapp.com)
+[mern-image-search-abstraction.herokuapp.com](https://mern-image-search-abstraction.herokuapp.com)
 
 ## General Info
 
