@@ -1,13 +1,13 @@
 import { nanoid } from '@reduxjs/toolkit';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {
-  Images,
+  ImagesState,
   SearchHistory,
   SearchHistoryResponse,
   ImageResponse,
 } from '../../types';
 import { updateTotalResults } from '../images/imagesSlice';
-import formatTime from '../utils/formatTime';
+import formatTime from '../../utils/formatTime';
 
 interface AddHistoryArgs {
   searchTerm: string;
@@ -44,7 +44,10 @@ export const apiSlice = createApi({
       invalidatesTags: ['History'],
     }),
 
-    getImages: builder.query<Images, { searchTerm: string; page?: number }>({
+    getImages: builder.query<
+      ImagesState,
+      { searchTerm: string; page?: number }
+    >({
       query: ({ searchTerm, page }) => {
         let url = `/imagesearch/${encodeURI(searchTerm)}`;
         if (page && page > 1) url += `?offset=${page - 1}`;

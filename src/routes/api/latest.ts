@@ -20,6 +20,7 @@ router.get(
           limit: 5,
         },
       );
+
       res.json(history);
     } catch (err) {
       if (err instanceof Error) {
@@ -45,11 +46,10 @@ router.post(
     try {
       const dbResponse = await newSearchHistory.save();
 
-      res.json(dbResponse);
-      // res.json({
-      //   searchTerm: dbResponse.searchTerm,
-      //   date: dbResponse.date,
-      // });
+      res.json({
+        searchTerm: dbResponse.searchTerm,
+        date: dbResponse.date,
+      });
     } catch (err) {
       if (err instanceof Error) {
         res.status(500).json(err);

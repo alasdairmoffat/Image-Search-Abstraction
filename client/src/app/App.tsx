@@ -1,8 +1,8 @@
 import { Provider } from 'react-redux';
-import { store } from './app/store';
+import { store } from './store';
 
 import './App.css';
-import ImageSearch from './features/images/ImageSearch';
+import ImageSearch from '../features/images/ImageSearch';
 // import TestComponent from './components/TestComponent';
 
 function App() {

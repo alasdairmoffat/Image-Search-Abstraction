@@ -25,7 +25,7 @@ export interface ImageResponse {
   totalResults: number;
 }
 
-export interface Images extends ImageResponse {
+export interface ImagesState extends ImageResponse {
   items: Image[];
   searchTerm: string;
 }
