@@ -9,9 +9,9 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "test": "nyc mocha -r ts-node/register 'src/test/**/*.ts'",
     "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "build": "tsc && npm run build --prefix client && mv -i -v client/build build/client",
+    "build": "tsc",
     "start": "node build/server.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build && rm -v -rf src client"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client  && mv -i -v client/build build/client"
   },
   "author": "",
   "license": "MIT",
